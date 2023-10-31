@@ -1,5 +1,6 @@
 class Player {
   private consecutiveDoubles = 0;
+  private doubleAttempts = 0;
 
   constructor(
     public name: PlayerName,
@@ -58,8 +59,19 @@ class Player {
       total
     );
     // Strategy: If you roll a triple, go to jail (no collecting $200)
+    // TODO: Ensure that there is no contradiction with double & triples
     if (!isDouble) {
       this.consecutiveDoubles = 0;
+      if (this.isJailed) {
+        this.doubleAttempts++;
+        if (this.doubleAttempts === DOUBLE_ROLLS_JAIL) {
+          this.balance -= OUT_OF_JAIL_AMOUNT;
+          this.isJailed = false;
+          this.doubleAttempts = 0;
+        } else {
+          return;
+        }
+      }
     }
     if (isDouble) {
       this.handleDouble(newPosition);
@@ -87,6 +99,7 @@ class Player {
   }
 
   private handleDouble(newPosition: number) {
+    this.doubleAttempts = 0;
     if (this.isJailed) {
       this.isJailed = false;
       this.currentPosition = newPosition;

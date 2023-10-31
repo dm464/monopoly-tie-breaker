@@ -5,6 +5,7 @@ const GO_AMOUNT = 200;
 const INCOME_TAX_AMOUNT = 200;
 const LUXUTY_TAX_AMOUNT = 100;
 const DOUBLE_ROLLS_JAIL = 3;
+const OUT_OF_JAIL_AMOUNT = 50;
 
 const dieRoll = () => {
   return Math.random() * 6 + 1;
