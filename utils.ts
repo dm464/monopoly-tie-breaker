@@ -4,6 +4,7 @@ const TOTAL_POSITIONS = 52;
 const GO_AMOUNT = 200;
 const INCOME_TAX_AMOUNT = 200;
 const LUXUTY_TAX_AMOUNT = 100;
+const DOUBLE_ROLLS_JAIL = 3;
 
 const dieRoll = () => {
   return Math.random() * 6 + 1;
@@ -20,7 +21,8 @@ const roll = (): Roll => {
   const bus: boolean = die3 > 5;
   const total = die1 + die2 + (die3 < 4 ? die3 : 0);
   const isTriple = die1 === die2 && die2 === die3;
-  return { total, monopolyMan, bus, isTriple };
+  const isDouble = die1 === die2 && die2 !== die3;
+  return { total, monopolyMan, bus, isTriple, isDouble };
 };
 
 const getNewPosition = (currentPosition: number, rollTotal: number) => {

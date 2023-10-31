@@ -1,4 +1,6 @@
 class Player {
+  private consecutiveDoubles = 0;
+
   constructor(
     public name: PlayerName,
     public currentPosition: number = 0,
@@ -13,7 +15,7 @@ class Player {
     this.isTurn = isTurn;
   }
 
-  updateFromPosition(opposingPlayer: Player) {
+  private updateFromPosition(opposingPlayer: Player) {
     switch (this.currentPosition) {
       case Position.Go:
         this.balance += GO_AMOUNT;
@@ -49,13 +51,26 @@ class Player {
   }
 
   play(opponent: Player) {
-    const { total, monopolyMan, bus, isTriple } = roll();
+    const { total, monopolyMan, bus, isTriple, isDouble } = roll();
+
     const { newPosition, passedGo } = getNewPosition(
       this.currentPosition,
       total
     );
     // Strategy: If you roll a triple, go to jail (no collecting $200)
-    this.currentPosition = isTriple ? Position.GoToJail : newPosition;
+    if (!isDouble) {
+      this.consecutiveDoubles = 0;
+    }
+    if (isDouble) {
+      this.handleDouble(newPosition);
+    } else if (isTriple) {
+      this.currentPosition = Position.GoToJail;
+      this.consecutiveDoubles = 0;
+    } else {
+      this.currentPosition = newPosition;
+      this.consecutiveDoubles = 0;
+    }
+
     if (passedGo) {
       this.balance += GO_AMOUNT;
     }
@@ -71,7 +86,23 @@ class Player {
     }
   }
 
-  getMonopolyManPosition(): number {
+  private handleDouble(newPosition: number) {
+    if (this.isJailed) {
+      this.isJailed = false;
+      this.currentPosition = newPosition;
+      // TODO: limit to 3 attempts
+    } else {
+      this.consecutiveDoubles++;
+      if (this.consecutiveDoubles === DOUBLE_ROLLS_JAIL) {
+        this.currentPosition = Position.GoToJail;
+        this.consecutiveDoubles = 0;
+      } else {
+        this.currentPosition = newPosition;
+      }
+    }
+  }
+
+  private getMonopolyManPosition(): number {
     if (this.name === PlayerName.Denisse) {
       return (
         OWNED_PROPERTIES_CONIE.find(

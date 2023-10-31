@@ -3,6 +3,7 @@ interface Roll {
   monopolyMan: boolean;
   bus: boolean;
   isTriple: boolean;
+  isDouble: boolean;
 }
 
 enum Position {
