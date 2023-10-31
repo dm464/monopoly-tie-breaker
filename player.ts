@@ -61,12 +61,28 @@ class Player {
     this.updateFromPosition(opponent);
 
     if (monopolyMan) {
-      // TODO: Properly update position based on monopoly man
+      this.currentPosition = this.getMonopolyManPosition();
       this.updateFromPosition(opponent);
     }
     if (bus) {
       this.currentPosition = goToNextCommunityChestOrChance(newPosition);
       this.updateFromPosition(opponent);
+    }
+  }
+
+  getMonopolyManPosition(): number {
+    if (this.name === PlayerName.Denisse) {
+      return (
+        OWNED_PROPERTIES_CONIE.find(
+          (position) => position > this.currentPosition
+        ) || Position.ParkPlace
+      );
+    } else {
+      return (
+        OWNED_PROPERTIES_DENISSE.find(
+          (position) => position > this.currentPosition
+        ) || Position.SaintJamesPlace
+      );
     }
   }
 }
