@@ -45,5 +45,28 @@ class Player {
       this.balance -= PROPERTY_RENT[this.currentPosition];
       opposingPlayer.balance += PROPERTY_RENT[this.currentPosition];
     }
+    // TODO: Adjust balances based on community chest or change card;
+  }
+
+  play(opponent: Player) {
+    const { total, monopolyMan, bus } = roll();
+    const { newPosition, passedGo } = getNewPosition(
+      this.currentPosition,
+      total
+    );
+    this.currentPosition = newPosition;
+    if (passedGo) {
+      this.balance += GO_AMOUNT;
+    }
+    this.updateFromPosition(opponent);
+
+    if (monopolyMan) {
+      // TODO: Properly update position based on monopoly man
+      this.updateFromPosition(opponent);
+    }
+    if (bus) {
+      this.currentPosition = goToNextCommunityChestOrChance(newPosition);
+      this.updateFromPosition(opponent);
+    }
   }
 }
