@@ -49,12 +49,13 @@ class Player {
   }
 
   play(opponent: Player) {
-    const { total, monopolyMan, bus } = roll();
+    const { total, monopolyMan, bus, isTriple } = roll();
     const { newPosition, passedGo } = getNewPosition(
       this.currentPosition,
       total
     );
-    this.currentPosition = newPosition;
+    // Strategy: If you roll a triple, go to jail (no collecting $200)
+    this.currentPosition = isTriple ? Position.GoToJail : newPosition;
     if (passedGo) {
       this.balance += GO_AMOUNT;
     }

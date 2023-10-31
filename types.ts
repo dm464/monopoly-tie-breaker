@@ -2,6 +2,7 @@ interface Roll {
   total: number;
   monopolyMan: boolean;
   bus: boolean;
+  isTriple: boolean;
 }
 
 enum Position {
@@ -28,10 +29,7 @@ const OWNED_PROPERTIES_DENISSE = [
   Position.NewJerseyAvenue,
 ];
 
-const OWNED_PROPERTIES_CONIE = [
-  Position.ParkPlace,
-  Position.Boardwalk,
-];
+const OWNED_PROPERTIES_CONIE = [Position.ParkPlace, Position.Boardwalk];
 
 const PROPERTY_RENT = {
   [Position.SaintJamesPlace]: 1450,
@@ -44,5 +42,5 @@ const PROPERTY_RENT = {
 
 enum PlayerName {
   Conie,
-  Denisse
+  Denisse,
 }

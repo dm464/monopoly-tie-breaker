@@ -19,7 +19,8 @@ const roll = (): Roll => {
   const monopolyMan: boolean = die3 > 3 && die3 < 6;
   const bus: boolean = die3 > 5;
   const total = die1 + die2 + (die3 < 4 ? die3 : 0);
-  return { total, monopolyMan, bus };
+  const isTriple = die1 === die2 && die2 === die3;
+  return { total, monopolyMan, bus, isTriple };
 };
 
 const getNewPosition = (currentPosition: number, rollTotal: number) => {
