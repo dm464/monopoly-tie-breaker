@@ -1,10 +1,4 @@
-import {
-  OWNED_PROPERTIES_CONIE,
-  OWNED_PROPERTIES_DENISSE,
-  PROPERTY_RENT,
-  PlayerName,
-  Position,
-} from "./types";
+import {} from "./types";
 import {
   DOUBLE_ROLLS_JAIL,
   GO_AMOUNT,
@@ -15,6 +9,13 @@ import {
   goToNextCommunityChestOrChance,
   roll,
 } from "./utils";
+import {
+  OWNED_PROPERTIES_CONIE,
+  OWNED_PROPERTIES_DENISSE,
+  PROPERTY_RENT,
+  PlayerName,
+  Position,
+} from "./constants";
 
 export class Player {
   private consecutiveDoubles = 0;

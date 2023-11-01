@@ -1,13 +1,9 @@
 import { Roll } from "./types";
-
-export const COMMUNITY_CHEST_POSITIONS = [2, 22, 43];
-export const CHANCE_POSITIONS = [9, 28, 46];
-export const TOTAL_POSITIONS = 52;
-export const GO_AMOUNT = 200;
-export const INCOME_TAX_AMOUNT = 200;
-export const LUXUTY_TAX_AMOUNT = 100;
-export const DOUBLE_ROLLS_JAIL = 3;
-export const OUT_OF_JAIL_AMOUNT = 50;
+import {
+  CHANCE_POSITIONS,
+  COMMUNITY_CHEST_POSITIONS,
+  TOTAL_POSITIONS,
+} from "./constants";
 
 const dieRoll = () => {
   return Math.random() * 6 + 1;

@@ -1,11 +1,3 @@
-export interface Roll {
-  total: number;
-  monopolyMan: boolean;
-  bus: boolean;
-  isTriple: boolean;
-  isDouble: boolean;
-}
-
 export enum Position {
   Go = 0,
   IncomeTax = 5,
@@ -22,6 +14,20 @@ export enum Position {
   LuxuryTax = 50,
   Boardwalk = 51,
 }
+
+export enum PlayerName {
+  Conie,
+  Denisse,
+}
+
+export const COMMUNITY_CHEST_POSITIONS = [2, 22, 43];
+export const CHANCE_POSITIONS = [9, 28, 46];
+export const TOTAL_POSITIONS = 52;
+export const GO_AMOUNT = 200;
+export const INCOME_TAX_AMOUNT = 200;
+export const LUXUTY_TAX_AMOUNT = 100;
+export const DOUBLE_ROLLS_JAIL = 3;
+export const OUT_OF_JAIL_AMOUNT = 50;
 
 export const OWNED_PROPERTIES_DENISSE = [
   Position.SaintJamesPlace,
@@ -40,8 +46,3 @@ export const PROPERTY_RENT = {
   [Position.ParkPlace]: 1500,
   [Position.Boardwalk]: 2000,
 };
-
-export enum PlayerName {
-  Conie,
-  Denisse,
-}
