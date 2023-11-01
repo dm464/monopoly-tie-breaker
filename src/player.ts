@@ -1,4 +1,3 @@
-import {} from "./types";
 import { getNewPosition, goToNextCommunityChestOrChance, roll } from "./utils";
 import {
   DOUBLE_ROLLS_JAIL,
@@ -40,7 +39,15 @@ export class Player {
         this.balance -= AMOUNT_INCOME_TAX;
         break;
       case Position.HighestProperty:
-        // TODO: Determine highest property for player
+        // These values are hard-coded based on the current state of the game
+        // This also brings Conie to New Jersey which is the last property, but
+        // it could very well be New York Avenue
+        // FIXME: Make this more dynamic
+        if (this.name === PlayerName.Denisse) {
+          this.currentPosition = Position.Boardwalk;
+        } else {
+          this.currentPosition = Position.NewJerseyAvenue;
+        }
         break;
       case Position.GoToJail:
         this.isJailed = true;
@@ -114,7 +121,6 @@ export class Player {
   }
 
   private handleDouble(newPosition: number) {
-    this.doubleAttempts = 0;
     if (this.isJailed) {
       this.isJailed = false;
       this.currentPosition = newPosition;
