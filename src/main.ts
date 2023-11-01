@@ -1,5 +1,5 @@
 import { Player } from "./player";
-import { PlayerName } from "./types";
+import { PlayerName } from "./constants";
 
 const STARTING_VALUE_DENISSE = 9738;
 const STARTING_VALUE_CONIE = 10080;
