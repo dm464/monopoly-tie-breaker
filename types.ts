@@ -1,4 +1,4 @@
-interface Roll {
+export interface Roll {
   total: number;
   monopolyMan: boolean;
   bus: boolean;
@@ -6,7 +6,7 @@ interface Roll {
   isDouble: boolean;
 }
 
-enum Position {
+export enum Position {
   Go = 0,
   IncomeTax = 5,
   Jail = 13,
@@ -23,16 +23,16 @@ enum Position {
   Boardwalk = 51,
 }
 
-const OWNED_PROPERTIES_DENISSE = [
+export const OWNED_PROPERTIES_DENISSE = [
   Position.SaintJamesPlace,
   Position.TennesseeAvenue,
   Position.NewYorkAvenue,
   Position.NewJerseyAvenue,
 ];
 
-const OWNED_PROPERTIES_CONIE = [Position.ParkPlace, Position.Boardwalk];
+export const OWNED_PROPERTIES_CONIE = [Position.ParkPlace, Position.Boardwalk];
 
-const PROPERTY_RENT = {
+export const PROPERTY_RENT = {
   [Position.SaintJamesPlace]: 1450,
   [Position.TennesseeAvenue]: 1450,
   [Position.NewYorkAvenue]: 1500,
@@ -41,7 +41,7 @@ const PROPERTY_RENT = {
   [Position.Boardwalk]: 2000,
 };
 
-enum PlayerName {
+export enum PlayerName {
   Conie,
   Denisse,
 }

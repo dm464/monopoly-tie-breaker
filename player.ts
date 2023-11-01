@@ -1,4 +1,22 @@
-class Player {
+import {
+  OWNED_PROPERTIES_CONIE,
+  OWNED_PROPERTIES_DENISSE,
+  PROPERTY_RENT,
+  PlayerName,
+  Position,
+} from "./types";
+import {
+  DOUBLE_ROLLS_JAIL,
+  GO_AMOUNT,
+  INCOME_TAX_AMOUNT,
+  LUXUTY_TAX_AMOUNT,
+  OUT_OF_JAIL_AMOUNT,
+  getNewPosition,
+  goToNextCommunityChestOrChance,
+  roll,
+} from "./utils";
+
+export class Player {
   private consecutiveDoubles = 0;
   private doubleAttempts = 0;
 
@@ -43,7 +61,7 @@ class Player {
       (this.name === PlayerName.Denisse &&
         OWNED_PROPERTIES_CONIE.includes(this.currentPosition)) ||
       (this.name === PlayerName.Conie &&
-        OWNED_PROPERTIES_DENISSE.includes(this.currentPosition))
+        OWNED_PROPERTIES_CONIE.includes(this.currentPosition))
     ) {
       this.balance -= PROPERTY_RENT[this.currentPosition];
       opposingPlayer.balance += PROPERTY_RENT[this.currentPosition];

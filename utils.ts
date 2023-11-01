@@ -1,17 +1,19 @@
-const COMMUNITY_CHEST_POSITIONS = [2, 22, 43];
-const CHANCE_POSITIONS = [9, 28, 46];
-const TOTAL_POSITIONS = 52;
-const GO_AMOUNT = 200;
-const INCOME_TAX_AMOUNT = 200;
-const LUXUTY_TAX_AMOUNT = 100;
-const DOUBLE_ROLLS_JAIL = 3;
-const OUT_OF_JAIL_AMOUNT = 50;
+import { Roll } from "./types";
+
+export const COMMUNITY_CHEST_POSITIONS = [2, 22, 43];
+export const CHANCE_POSITIONS = [9, 28, 46];
+export const TOTAL_POSITIONS = 52;
+export const GO_AMOUNT = 200;
+export const INCOME_TAX_AMOUNT = 200;
+export const LUXUTY_TAX_AMOUNT = 100;
+export const DOUBLE_ROLLS_JAIL = 3;
+export const OUT_OF_JAIL_AMOUNT = 50;
 
 const dieRoll = () => {
   return Math.random() * 6 + 1;
 };
 
-const roll = (): Roll => {
+export const roll = (): Roll => {
   const die1 = dieRoll();
   const die2 = dieRoll();
   const die3 = dieRoll();
@@ -26,13 +28,15 @@ const roll = (): Roll => {
   return { total, monopolyMan, bus, isTriple, isDouble };
 };
 
-const getNewPosition = (currentPosition: number, rollTotal: number) => {
+export const getNewPosition = (currentPosition: number, rollTotal: number) => {
   const newPosition = currentPosition + (rollTotal % TOTAL_POSITIONS);
   const passedGo: boolean = newPosition < currentPosition;
   return { newPosition, passedGo };
 };
 
-const goToNextCommunityChestOrChance = (currentPosition: number): number => {
+export const goToNextCommunityChestOrChance = (
+  currentPosition: number
+): number => {
   const nextCommunityChest = COMMUNITY_CHEST_POSITIONS.find(
     (position) => position > currentPosition
   );
