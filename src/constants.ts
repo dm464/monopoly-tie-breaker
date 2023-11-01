@@ -20,14 +20,14 @@ export enum PlayerName {
   Denisse,
 }
 
-export const COMMUNITY_CHEST_POSITIONS = [2, 22, 43];
-export const CHANCE_POSITIONS = [9, 28, 46];
-export const TOTAL_POSITIONS = 52;
-export const GO_AMOUNT = 200;
-export const INCOME_TAX_AMOUNT = 200;
-export const LUXUTY_TAX_AMOUNT = 100;
+export const AMOUNT_GO = 200;
+export const AMOUNT_INCOME_TAX = 200;
+export const AMOUNT_LUXUTY_TAX = 100;
+export const AMOUNT_OUT_OF_JAIL = 50;
 export const DOUBLE_ROLLS_JAIL = 3;
-export const OUT_OF_JAIL_AMOUNT = 50;
+export const POSITIONS_CHANCE = [9, 28, 46];
+export const POSITIONS_COMMUNITY_CHEST = [2, 22, 43];
+export const POSITIONS_TOTAL = 52;
 
 export const OWNED_PROPERTIES_DENISSE = [
   Position.SaintJamesPlace,

@@ -1,8 +1,8 @@
 import { Roll } from "./types";
 import {
-  CHANCE_POSITIONS,
-  COMMUNITY_CHEST_POSITIONS,
-  TOTAL_POSITIONS,
+  POSITIONS_CHANCE,
+  POSITIONS_COMMUNITY_CHEST,
+  POSITIONS_TOTAL,
 } from "./constants";
 
 const dieRoll = () => {
@@ -25,7 +25,7 @@ export const roll = (): Roll => {
 };
 
 export const getNewPosition = (currentPosition: number, rollTotal: number) => {
-  const newPosition = currentPosition + (rollTotal % TOTAL_POSITIONS);
+  const newPosition = currentPosition + (rollTotal % POSITIONS_TOTAL);
   const passedGo: boolean = newPosition < currentPosition;
   return { newPosition, passedGo };
 };
@@ -33,14 +33,14 @@ export const getNewPosition = (currentPosition: number, rollTotal: number) => {
 export const goToNextCommunityChestOrChance = (
   currentPosition: number
 ): number => {
-  const nextCommunityChest = COMMUNITY_CHEST_POSITIONS.find(
+  const nextCommunityChest = POSITIONS_COMMUNITY_CHEST.find(
     (position) => position > currentPosition
   );
-  const nextChance = CHANCE_POSITIONS.find(
+  const nextChance = POSITIONS_CHANCE.find(
     (position) => position > currentPosition
   );
   if (!nextCommunityChest && !nextChance) {
-    return Math.min(...COMMUNITY_CHEST_POSITIONS, ...CHANCE_POSITIONS);
+    return Math.min(...POSITIONS_COMMUNITY_CHEST, ...POSITIONS_CHANCE);
   } else if (nextChance) {
     return nextChance;
   } else if (nextCommunityChest) {

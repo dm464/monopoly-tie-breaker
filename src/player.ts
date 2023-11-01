@@ -1,20 +1,16 @@
 import {} from "./types";
+import { getNewPosition, goToNextCommunityChestOrChance, roll } from "./utils";
 import {
   DOUBLE_ROLLS_JAIL,
-  GO_AMOUNT,
-  INCOME_TAX_AMOUNT,
-  LUXUTY_TAX_AMOUNT,
-  OUT_OF_JAIL_AMOUNT,
-  getNewPosition,
-  goToNextCommunityChestOrChance,
-  roll,
-} from "./utils";
-import {
+  AMOUNT_GO,
+  AMOUNT_INCOME_TAX,
+  AMOUNT_LUXUTY_TAX,
+  AMOUNT_OUT_OF_JAIL,
   OWNED_PROPERTIES_CONIE,
   OWNED_PROPERTIES_DENISSE,
-  PROPERTY_RENT,
   PlayerName,
   Position,
+  PROPERTY_RENT,
 } from "./constants";
 
 export class Player {
@@ -38,10 +34,10 @@ export class Player {
   private updateFromPosition(opposingPlayer: Player) {
     switch (this.currentPosition) {
       case Position.Go:
-        this.balance += GO_AMOUNT;
+        this.balance += AMOUNT_GO;
         break;
       case Position.IncomeTax:
-        this.balance -= INCOME_TAX_AMOUNT;
+        this.balance -= AMOUNT_INCOME_TAX;
         break;
       case Position.HighestProperty:
         // TODO: Determine highest property for player
@@ -54,7 +50,7 @@ export class Player {
         this.balance += 100;
         break;
       case Position.LuxuryTax:
-        this.balance -= LUXUTY_TAX_AMOUNT;
+        this.balance -= AMOUNT_LUXUTY_TAX;
         break;
     }
 
@@ -84,7 +80,7 @@ export class Player {
       if (this.isJailed) {
         this.doubleAttempts++;
         if (this.doubleAttempts === DOUBLE_ROLLS_JAIL) {
-          this.balance -= OUT_OF_JAIL_AMOUNT;
+          this.balance -= AMOUNT_OUT_OF_JAIL;
           this.isJailed = false;
           this.doubleAttempts = 0;
         } else {
@@ -103,7 +99,7 @@ export class Player {
     }
 
     if (passedGo) {
-      this.balance += GO_AMOUNT;
+      this.balance += AMOUNT_GO;
     }
     this.updateFromPosition(opponent);
 
