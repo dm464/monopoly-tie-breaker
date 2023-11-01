@@ -61,7 +61,7 @@ export class Player {
       (this.name === PlayerName.Denisse &&
         OWNED_PROPERTIES_CONIE.includes(this.currentPosition)) ||
       (this.name === PlayerName.Conie &&
-        OWNED_PROPERTIES_CONIE.includes(this.currentPosition))
+        OWNED_PROPERTIES_DENISSE.includes(this.currentPosition))
     ) {
       this.balance -= PROPERTY_RENT[this.currentPosition];
       opposingPlayer.balance += PROPERTY_RENT[this.currentPosition];
