@@ -25,7 +25,7 @@ export const roll = (): Roll => {
 };
 
 export const getNewPosition = (currentPosition: number, rollTotal: number) => {
-  const newPosition = currentPosition + (rollTotal % POSITIONS_TOTAL);
+  const newPosition = (currentPosition + rollTotal) % POSITIONS_TOTAL;
   const passedGo: boolean = newPosition < currentPosition;
   return { newPosition, passedGo };
 };
