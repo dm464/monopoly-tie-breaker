@@ -7,8 +7,8 @@ const STARTING_POSITION_DENISSE = 0;
 const STARTING_POSITION_CONIE = 0;
 
 let numberOfTurns: number;
-let playerDenisse = new Player(PlayerName.Denisse);
-let playerConie = new Player(PlayerName.Conie);
+let playerDenisse: Player;
+let playerConie: Player;
 
 let player;
 let opponent;
@@ -22,12 +22,18 @@ let winner: Player;
 
 for (let i = 0; i < TOTAL_NUMBER_OF_GAMES; i++) {
   // Reset values
-  playerDenisse.currentPosition = STARTING_POSITION_DENISSE;
-  playerDenisse.balance = STARTING_VALUE_DENISSE;
-  playerDenisse.isTurn = true;
-  playerConie.currentPosition = STARTING_POSITION_CONIE;
-  playerConie.balance = STARTING_VALUE_CONIE;
-  playerConie.isTurn = false;
+  playerDenisse = new Player(
+    PlayerName.Denisse,
+    STARTING_POSITION_DENISSE,
+    STARTING_VALUE_DENISSE,
+    false
+  );
+  playerConie = new Player(
+    PlayerName.Conie,
+    STARTING_POSITION_CONIE,
+    STARTING_VALUE_CONIE,
+    true
+  );
   numberOfTurns = 0;
   while (playerDenisse.balance > 0 && playerConie.balance > 0) {
     player = playerDenisse.isTurn ? playerDenisse : playerConie;

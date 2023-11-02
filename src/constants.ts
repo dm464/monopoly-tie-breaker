@@ -20,7 +20,7 @@ export enum PlayerName {
   Denisse,
 }
 
-export const AMOUNT_GO = 200;
+export const AMOUNT_GO = 0;
 export const AMOUNT_INCOME_TAX = 200;
 export const AMOUNT_LUXUTY_TAX = 100;
 export const AMOUNT_OUT_OF_JAIL = 50;
