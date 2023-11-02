@@ -19,6 +19,8 @@ import {
   PROPERTY_RENT,
   POSITIONS_CHANCE,
   TOTAL_CARDS_CHANCE,
+  POSITIONS_COMMUNITY_CHEST,
+  TOTAL_CARDS_COMMUNITY_CHEST,
 } from "./constants";
 
 export class Player {
@@ -84,6 +86,10 @@ export class Player {
     // TODO: Adjust balances based on community chest or change card;
     if (POSITIONS_CHANCE.includes(this.currentPosition)) {
       this.pickChance(opposingPlayer);
+    }
+
+    if (POSITIONS_COMMUNITY_CHEST.includes(this.currentPosition)) {
+      this.pickCommunityChest(opposingPlayer);
     }
   }
 
@@ -231,17 +237,90 @@ export class Player {
       case 13:
         // Hardcoded: using the hard coded values of skyscrapers both players have
         if (this.name === PlayerName.Denisse) {
-          this.balance -= 100 * 4;
+          this.balance -= 100 * OWNED_PROPERTIES_DENISSE.length;
         } else {
-          this.balance -= 100 * 2;
+          this.balance -= 100 * OWNED_PROPERTIES_CONIE.length;
         }
         break;
       // Building loan matures, collect $150
       case 14:
         this.balance += 150;
         break;
+      default:
+        break;
     }
     this.chanceIdx = (this.chanceIdx + 1) % TOTAL_CARDS_CHANCE;
+  }
+
+  pickCommunityChest(opponent: Player) {
+    switch (this.communityChestIdx) {
+      // You have won second prize in a beauty contest, collect $10
+      case 0:
+        this.balance += 10;
+        break;
+      // Pay school fees of $50
+      // Pay doctor's fees of $50
+      case 1:
+      case 5:
+        this.balance -= 50;
+        break;
+      // Pay hospital fees of $100
+      case 2:
+        this.balance -= 100;
+        break;
+      // You inherit $100
+      // Life insurance matures, collect $100
+      // Holiday fund matures, collect $100
+      case 3:
+      case 10:
+      case 12:
+        this.balance += 100;
+        break;
+      // Advance to Go
+      case 4:
+        this.updatePosition(Position.Go);
+        this.updateFromPosition(opponent);
+        break;
+      // Receive $25 consultancy fee
+      case 6:
+        this.balance += 25;
+        break;
+      // Assessed for street repairs (100 per skyscraper)
+      case 7:
+        // Hardcoded: using the hard coded values of skyscrapers both players have
+        if (this.name === PlayerName.Denisse) {
+          this.balance -= 100 * OWNED_PROPERTIES_DENISSE.length;
+        } else {
+          this.balance -= 100 * OWNED_PROPERTIES_CONIE.length;
+        }
+        break;
+      // It is your birthday, collect $10 from each player
+      case 8:
+        // Hardcoded: Only 2 players
+        this.balance += 10;
+        opponent.balance -= 10;
+        break;
+      // Bank error in your favor, collect $200
+      case 9:
+        this.balance += 200;
+        break;
+      // From sale of stock you get $50
+      case 11:
+        this.balance += 50;
+        break;
+      // Income tax refund, collect $20
+      case 13:
+        this.balance += 20;
+        break;
+      // Get out of jail free
+      case 14:
+      default:
+        // Hardcoded: Do nothing because we are not implementing
+        // getting out of jail with card
+        break;
+    }
+    this.communityChestIdx =
+      (this.communityChestIdx + 1) % TOTAL_CARDS_COMMUNITY_CHEST;
   }
 
   private updatePosition(
