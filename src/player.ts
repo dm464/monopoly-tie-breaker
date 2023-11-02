@@ -26,8 +26,8 @@ import {
 export class Player {
   private consecutiveDoubles = 0;
   private doubleAttempts = 0;
-  private chanceIdx = 0;
-  private communityChestIdx = 0;
+  chanceIdx = 0;
+  communityChestIdx = 0;
 
   constructor(
     public name: PlayerName,
@@ -41,6 +41,14 @@ export class Player {
     this.balance = balance;
     this.isJailed = isJailed;
     this.isTurn = isTurn;
+  }
+
+  get chanceIndex() {
+    return this.chanceIdx;
+  }
+
+  get communityChestIndex() {
+    return this.communityChestIdx;
   }
 
   private updateFromPosition(opposingPlayer: Player) {
@@ -93,7 +101,9 @@ export class Player {
     }
   }
 
-  play(opponent: Player) {
+  play(opponent: Player, chanceIdx: number, communityChestIdx: number) {
+    this.chanceIdx = chanceIdx;
+    this.communityChestIdx = communityChestIdx;
     const { total, monopolyMan, bus, isTriple, isDouble } = roll();
     const newPosition = getNewPosition(this.currentPosition, total);
 
@@ -252,7 +262,7 @@ export class Player {
     this.chanceIdx = (this.chanceIdx + 1) % TOTAL_CARDS_CHANCE;
   }
 
-  pickCommunityChest(opponent: Player) {
+  private pickCommunityChest(opponent: Player) {
     switch (this.communityChestIdx) {
       // You have won second prize in a beauty contest, collect $10
       case 0:

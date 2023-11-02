@@ -9,6 +9,8 @@ const STARTING_POSITION_CONIE = 0;
 let numberOfTurns: number;
 let playerDenisse: Player;
 let playerConie: Player;
+let chanceIdx: number;
+let communityChestIdx: number;
 
 let player;
 let opponent;
@@ -35,10 +37,14 @@ for (let i = 0; i < TOTAL_NUMBER_OF_GAMES; i++) {
     true
   );
   numberOfTurns = 0;
+  chanceIdx = 0;
+  communityChestIdx = 0;
   while (playerDenisse.balance > 0 && playerConie.balance > 0) {
     player = playerDenisse.isTurn ? playerDenisse : playerConie;
     opponent = playerDenisse.isTurn ? playerConie : playerDenisse;
-    player.play(opponent);
+    player.play(opponent, chanceIdx, communityChestIdx);
+    chanceIdx = player.chanceIdx;
+    communityChestIdx = player.communityChestIdx;
     player.isTurn = false;
     opponent.isTurn = true;
     numberOfTurns++;
