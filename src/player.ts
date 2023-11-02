@@ -2,6 +2,8 @@ import {
   didPassGo,
   getNewPosition,
   goToNextCommunityChestOrChance,
+  goToNextRailroad,
+  goToNextUtility,
   roll,
 } from "./utils";
 import {
@@ -170,7 +172,8 @@ export class Player {
         break;
       // Go to St. Charles Place
       case 1:
-        this.updatePosition(Position.SaintCharlesPlae);
+        // Hardcoded: Do nothing because no one owns St. Charles Place
+        this.updatePosition(Position.SaintCharlesPlace);
         break;
       // Go back 3 spaces
       case 2:
@@ -178,6 +181,64 @@ export class Player {
         // since the new smaller index will incorrectly return true for the passedGo logic
         this.updatePosition(this.currentPosition - 3, false);
         this.updateFromPosition(opponent);
+        break;
+      // Advance to the nearest railroad
+      case 3:
+      case 11:
+        // Hardcoded: Do nothing because no one owns the railroads
+        this.updatePosition(goToNextRailroad(this.currentPosition));
+        break;
+      // Advance to Boardwalk
+      case 4:
+        this.updatePosition(Position.Boardwalk);
+        this.updateFromPosition(opponent);
+        break;
+      // Advance to Go
+      case 5:
+        this.updatePosition(Position.Go);
+        this.updateFromPosition(opponent);
+        break;
+      // Advance to nearest utility
+      case 6:
+        // Hardcoded: Do nothing because no one owns the utilities
+        this.updatePosition(goToNextUtility(this.currentPosition));
+        break;
+      // Take a trip to Reading Railroad
+      case 7:
+        // Hardcoded: Do nothing because no one owns Reading Railroad
+        this.updatePosition(Position.ReadingRailroad);
+        break;
+      // Elected chairman of the board, pay each player $50
+      case 8:
+        // Hardcoded: Only 2 players
+        this.balance -= 50;
+        opponent.balance += 50;
+        break;
+      // Bank pays you dividend of $50
+      case 9:
+        this.balance += 50;
+        break;
+      // Speeding fine $15
+      case 10:
+        this.balance -= 15;
+        break;
+      // Advance to Illinois Avenue
+      case 12:
+        // Hardcoded: Do nothing because no one owns Illinois Avenue
+        this.updatePosition(Position.IllinoisAvenue);
+        break;
+      // Make general repairs on all your property ($100 per skyscraper)
+      case 13:
+        // Hardcoded: using the hard coded values of skyscrapers both players have
+        if (this.name === PlayerName.Denisse) {
+          this.balance -= 100 * 4;
+        } else {
+          this.balance -= 100 * 2;
+        }
+        break;
+      // Building loan matures, collect $150
+      case 14:
+        this.balance += 150;
         break;
     }
     this.chanceIdx = (this.chanceIdx + 1) % TOTAL_CARDS_CHANCE;

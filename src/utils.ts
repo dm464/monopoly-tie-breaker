@@ -2,7 +2,9 @@ import { Roll } from "./types";
 import {
   POSITIONS_CHANCE,
   POSITIONS_COMMUNITY_CHEST,
+  POSITIONS_RAILROADS,
   POSITIONS_TOTAL,
+  POSITIONS_UTILITIES,
 } from "./constants";
 
 const dieRoll = () => {
@@ -46,6 +48,20 @@ export const goToNextCommunityChestOrChance = (
   }
   // This should never happen
   return currentPosition;
+};
+
+export const goToNextRailroad = (currentPosition: number): number => {
+  const nextRailroad = POSITIONS_RAILROADS.find(
+    (position) => position > currentPosition
+  );
+  return nextRailroad || Math.min(...POSITIONS_RAILROADS);
+};
+
+export const goToNextUtility = (currentPosition: number): number => {
+  const nextUtility = POSITIONS_UTILITIES.find(
+    (position) => position > currentPosition
+  );
+  return nextUtility || Math.min(...POSITIONS_UTILITIES);
 };
 
 export const didPassGo = (
