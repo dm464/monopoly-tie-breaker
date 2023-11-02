@@ -3,6 +3,7 @@ export enum Position {
   IncomeTax = 5,
   Jail = 13,
   HighestProperty = 14,
+  SaintCharlesPlae = 16,
   SaintJamesPlace = 21,
   TennesseeAvenue = 23,
   NewYorkAvenue = 24,
@@ -28,6 +29,8 @@ export const DOUBLE_ROLLS_JAIL = 3;
 export const POSITIONS_CHANCE = [9, 28, 46];
 export const POSITIONS_COMMUNITY_CHEST = [2, 22, 43];
 export const POSITIONS_TOTAL = 52;
+export const TOTAL_CARDS_CHANCE = 15;
+export const TOTAL_CARDS_COMMUNITY_CHEST = 15;
 
 export const OWNED_PROPERTIES_DENISSE = [
   Position.SaintJamesPlace,

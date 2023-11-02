@@ -25,9 +25,7 @@ export const roll = (): Roll => {
 };
 
 export const getNewPosition = (currentPosition: number, rollTotal: number) => {
-  const newPosition = (currentPosition + rollTotal) % POSITIONS_TOTAL;
-  const passedGo: boolean = newPosition < currentPosition;
-  return { newPosition, passedGo };
+  return (currentPosition + rollTotal) % POSITIONS_TOTAL;
 };
 
 export const goToNextCommunityChestOrChance = (
@@ -48,4 +46,11 @@ export const goToNextCommunityChestOrChance = (
   }
   // This should never happen
   return currentPosition;
+};
+
+export const didPassGo = (
+  currentPosition: number,
+  newPosition: number
+): boolean => {
+  return newPosition < currentPosition;
 };

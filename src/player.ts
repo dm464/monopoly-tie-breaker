@@ -1,4 +1,9 @@
-import { getNewPosition, goToNextCommunityChestOrChance, roll } from "./utils";
+import {
+  didPassGo,
+  getNewPosition,
+  goToNextCommunityChestOrChance,
+  roll,
+} from "./utils";
 import {
   DOUBLE_ROLLS_JAIL,
   AMOUNT_GO,
@@ -10,11 +15,15 @@ import {
   PlayerName,
   Position,
   PROPERTY_RENT,
+  POSITIONS_CHANCE,
+  TOTAL_CARDS_CHANCE,
 } from "./constants";
 
 export class Player {
   private consecutiveDoubles = 0;
   private doubleAttempts = 0;
+  private chanceIdx = 0;
+  private communityChestIdx = 0;
 
   constructor(
     public name: PlayerName,
@@ -44,14 +53,13 @@ export class Player {
         // it could very well be New York Avenue
         // FIXME: Make this more dynamic
         if (this.name === PlayerName.Denisse) {
-          this.currentPosition = Position.Boardwalk;
+          this.updatePosition(Position.Boardwalk);
         } else {
-          this.currentPosition = Position.NewJerseyAvenue;
+          this.updatePosition(Position.NewJerseyAvenue);
         }
         break;
       case Position.GoToJail:
-        this.isJailed = true;
-        this.currentPosition = Position.Jail;
+        this.goToJail();
         break;
       case Position.Take100:
         this.balance += 100;
@@ -70,16 +78,17 @@ export class Player {
       this.balance -= PROPERTY_RENT[this.currentPosition];
       opposingPlayer.balance += PROPERTY_RENT[this.currentPosition];
     }
+
     // TODO: Adjust balances based on community chest or change card;
+    if (POSITIONS_CHANCE.includes(this.currentPosition)) {
+      this.pickChance(opposingPlayer);
+    }
   }
 
   play(opponent: Player) {
     const { total, monopolyMan, bus, isTriple, isDouble } = roll();
+    const newPosition = getNewPosition(this.currentPosition, total);
 
-    const { newPosition, passedGo } = getNewPosition(
-      this.currentPosition,
-      total
-    );
     // Strategy: If you roll a triple, go to jail (no collecting $200)
     // TODO: Ensure that there is no contradiction with double & triples
     if (!isDouble) {
@@ -98,24 +107,21 @@ export class Player {
     if (isDouble) {
       this.handleDouble(newPosition);
     } else if (isTriple) {
-      this.currentPosition = Position.GoToJail;
+      this.goToJail();
       this.consecutiveDoubles = 0;
     } else {
-      this.currentPosition = newPosition;
+      this.updatePosition(newPosition);
       this.consecutiveDoubles = 0;
     }
 
-    if (passedGo) {
-      this.balance += AMOUNT_GO;
-    }
     this.updateFromPosition(opponent);
 
     if (monopolyMan) {
-      this.currentPosition = this.getMonopolyManPosition();
+      this.updatePosition(this.getMonopolyManPosition());
       this.updateFromPosition(opponent);
     }
     if (bus) {
-      this.currentPosition = goToNextCommunityChestOrChance(newPosition);
+      this.updatePosition(goToNextCommunityChestOrChance(newPosition));
       this.updateFromPosition(opponent);
     }
   }
@@ -123,15 +129,14 @@ export class Player {
   private handleDouble(newPosition: number) {
     if (this.isJailed) {
       this.isJailed = false;
-      this.currentPosition = newPosition;
-      // TODO: limit to 3 attempts
+      this.updatePosition(newPosition, false);
     } else {
       this.consecutiveDoubles++;
       if (this.consecutiveDoubles === DOUBLE_ROLLS_JAIL) {
-        this.currentPosition = Position.GoToJail;
+        this.goToJail();
         this.consecutiveDoubles = 0;
       } else {
-        this.currentPosition = newPosition;
+        this.updatePosition(newPosition);
       }
     }
   }
@@ -150,5 +155,41 @@ export class Player {
         ) || Position.SaintJamesPlace
       );
     }
+  }
+
+  private goToJail() {
+    this.updatePosition(Position.Jail, false);
+    this.isJailed = true;
+  }
+
+  private pickChance(opponent: Player) {
+    switch (this.chanceIdx) {
+      // Go to jail
+      case 0:
+        this.goToJail();
+        break;
+      // Go to St. Charles Place
+      case 1:
+        this.updatePosition(Position.SaintCharlesPlae);
+        break;
+      // Go back 3 spaces
+      case 2:
+        // Making collectMoneyOnGo false will prevent the player from collecting
+        // since the new smaller index will incorrectly return true for the passedGo logic
+        this.updatePosition(this.currentPosition - 3, false);
+        this.updateFromPosition(opponent);
+        break;
+    }
+    this.chanceIdx = (this.chanceIdx + 1) % TOTAL_CARDS_CHANCE;
+  }
+
+  private updatePosition(
+    newPosition: number,
+    collectMoneyOnGo: boolean = true
+  ) {
+    if (didPassGo(this.currentPosition, newPosition) && collectMoneyOnGo) {
+      this.balance += AMOUNT_GO;
+    }
+    this.currentPosition = newPosition;
   }
 }
