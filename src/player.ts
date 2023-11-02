@@ -211,7 +211,7 @@ export class Player {
         break;
       // Advance to Go
       case 5:
-        this.updatePosition(Position.Go);
+        this.updatePosition(Position.Go, false);
         this.updateFromPosition(opponent);
         break;
       // Advance to nearest utility
@@ -288,7 +288,7 @@ export class Player {
         break;
       // Advance to Go
       case 4:
-        this.updatePosition(Position.Go);
+        this.updatePosition(Position.Go, false);
         this.updateFromPosition(opponent);
         break;
       // Receive $25 consultancy fee
@@ -337,7 +337,11 @@ export class Player {
     newPosition: number,
     collectMoneyOnGo: boolean = true
   ) {
-    if (didPassGo(this.currentPosition, newPosition) && collectMoneyOnGo) {
+    if (
+      didPassGo(this.currentPosition, newPosition) &&
+      this.currentPosition !== Position.Go &&
+      collectMoneyOnGo
+    ) {
       this.balance += AMOUNT_GO;
     }
     this.currentPosition = newPosition;

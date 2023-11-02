@@ -29,6 +29,8 @@ export enum PlayerName {
   Denisse,
 }
 
+// For some reason, AMOUNT_GO can be max 85 for the game to end
+// and the losing player's balance to converge
 export const AMOUNT_GO = 0;
 export const AMOUNT_INCOME_TAX = 200;
 export const AMOUNT_LUXUTY_TAX = 100;
